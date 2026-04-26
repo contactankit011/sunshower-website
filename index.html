@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Sunshower Creatives — Brand &amp; Strategy, Kathmandu</title>
+<meta name="description" content="Sunshower Creatives — Kathmandu-based creative agency for brand identity, digital strategy, and campaigns."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300&display=swap" rel="stylesheet"/>
+<style>
+/* ─────────────────── TOKENS ─────────────────── */
+:root{
+  --bg:    #1A1A1B;
+  --bg2:   #1F1F20;
+  --text:  #F5F5F7;
+  --muted: #666668;
+  --dim:   #323234;
+  --red:   #FF2E2E;
+  --gold:  #FF9F1C;
+  --f:     'Poppins',sans-serif;
+}
+
+/* ─────────────────── RESET ─────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--f);
+  background:var(--bg);
+  color:var(--text);
+  font-weight:300;
+  line-height:1.75;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  cursor:none;
+}
+img{display:block;max-width:100%}
+a{text-decoration:none;color:inherit}
+
+/* ─────────────────── CURSOR ─────────────────── */
+#cur{position:fixed;inset:0;z-index:9999;pointer-events:none}
+#cdot{
+  position:absolute;width:5px;height:5px;border-radius:50%;
+  background:var(--red);transform:translate(-50%,-50%);
+}
+#cring{
+  position:absolute;width:28px;height:28px;border-radius:50%;
+  border:1px solid rgba(255, 255, 255);
+  transform:translate(-50%,-50%);
+  transition:width .2s,height .2s,border-color .2s;
+}
+body:has(a:hover) #cring,
+body:has(button:hover) #cring{width:44px;height:44px;border-color:var(--gold)}
+
+/* ─────────────────── NAV ─────────────────────
+   3-column grid: logo | links (centred) | cta
+   Height locked at 68px. Nothing shifts.
+────────────────────────────────────────────── */
+#nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  height:68px;
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  align-items:center;
+  padding:0 3.5rem;
+  border-bottom:1px solid transparent;
+  transition:background .32s,border-color .32s;
+}
+#nav.scrolled{
+  background:rgba(26,26,27,.97);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  border-color:var(--dim);
+}
+
+/* — logo (left column, stays left) */
+.nl{
+  display:flex;align-items:center;gap:.6rem;
+  justify-self:start;
+}
+.nl svg{height:28px;width:auto;flex-shrink:0}
+.nl-text{line-height:1.15}
+.nl-name{
+  display:block;
+  font-size:.82rem;font-weight:700;
+  letter-spacing:.02em;color:var(--text);
+}
+.nl-sub{
+  display:block;
+  font-size:.5rem;font-weight:300;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--muted);
+}
+
+/* — links (centre column, perfectly centred) */
+.nm{
+  display:flex;align-items:center;gap:2.6rem;
+  list-style:none;
+}
+.nm a{
+  font-size:.62rem;font-weight:500;
+  letter-spacing:.16em;text-transform:uppercase;
+  color:var(--muted);position:relative;padding-bottom:3px;
+  white-space:nowrap;
+  transition:color .2s;
+}
+.nm a::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;
+  height:1px;background:var(--red);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .25s;
+}
+.nm a:hover{color:var(--text)}
+.nm a:hover::after{transform:scaleX(1)}
+
+/* — cta (right column, stays right) */
+.nr{justify-self:end;display:flex;align-items:center}
+.ncta{
+  font-size:.6rem;font-weight:700;
+  letter-spacing:.16em;text-transform:uppercase;
+  color:var(--bg);background:var(--red);
+  padding:.5rem 1.4rem;border-radius:2px;
+  white-space:nowrap;
+  transition:background .2s;
+}
+.ncta:hover{background:var(--gold)}
+
+.nhbtn{
+  display:none;background:none;border:none;
+  color:var(--text);cursor:pointer;padding:.3rem;
+}
+.nhbtn svg{width:22px;height:22px}
+
+/* ─────────────────── MOBILE MENU ─────────────────── */
+#mob{
+  display:none;position:fixed;inset:0;z-index:190;
+  background:var(--bg);
+  flex-direction:column;align-items:center;justify-content:center;gap:2.2rem;
+}
+#mob.open{display:flex}
+#mob a{
+  font-size:2rem;font-weight:800;color:var(--text);
+  letter-spacing:.02em;transition:color .2s;
+}
+#mob a:hover{color:var(--red)}
+#mclose{
+  position:absolute;top:1.4rem;right:2rem;
+  background:none;border:none;color:var(--muted);
+  font-size:1.6rem;cursor:pointer;
+}
+
+/* ─────────────────── HERO ─────────────────── */
+#home{
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;
+  padding:0 2rem;
+  position:relative;overflow:hidden;
+}
+.hbg{position:absolute;inset:0;z-index:0}
+.hbg img{
+  width:100%;height:100%;object-fit:cover;opacity:.18;
+  /* TO CHANGE HERO IMAGE: replace the src below */
+}
+.hbg::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(to bottom,
+    var(--bg) 0%,
+    rgba(26,26,27,.15) 25%,
+    rgba(26,26,27,.15) 75%,
+    var(--bg) 100%
+  );
+}
+.hinner{position:relative;z-index:1;max-width:820px;width:100%;margin-top: 60px;}
+
+.htag{
+  display:inline-flex;align-items:center;gap:.5rem;
+  font-size:.56rem;font-weight:600;letter-spacing:.26em;text-transform:uppercase;
+  color:var(--gold);border:1px solid rgba(255,159,28,.28);
+  padding:.3rem 1rem;border-radius:100px;margin-bottom:2.2rem;
+  animation:up .65s ease both;
+}
+.htag::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--gold)}
+
+/* HEADLINE — primary hierarchy */
+.hh1{
+  font-size:clamp(3.2rem,7.5vw,7.5rem);
+  font-weight:800;
+  line-height:.97;
+  letter-spacing:-.04em;
+  margin-bottom:1rem;
+  animation:up .75s .06s ease both;
+}
+.hh1 .ac{color:var(--red)}
+.hh1 .it{
+  display:block;
+  font-weight:200;font-style:italic;
+  letter-spacing:-.01em;color:rgba(245,245,247,.38);
+  font-size:.6em;line-height:1.4;
+  margin-top:.15em;
+}
+
+/* sub-headline — secondary hierarchy */
+.hsub{
+  font-size:.9rem;font-weight:300;
+  color:var(--muted);max-width:430px;
+  line-height:1.85;margin:2rem auto 2.8rem;
+  animation:up .75s .14s ease both;
+}
+
+.hbtns{
+  display:flex;gap:1.1rem;align-items:center;justify-content:center;
+  animation:up .75s .22s ease both;
+}
+.btnp{
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:.8rem 2rem;border:none;border-radius:2px;
+  background:var(--red);color:var(--bg);
+  font-family:var(--f);font-size:.62rem;font-weight:700;
+  letter-spacing:.16em;text-transform:uppercase;
+  cursor:pointer;transition:background .2s,transform .18s;
+}
+.btnp:hover{background:var(--gold);transform:translateY(-2px)}
+.btng{
+  display:inline-flex;align-items:center;gap:.45rem;
+  background:none;border:none;cursor:pointer;
+  font-family:var(--f);font-size:.62rem;font-weight:500;
+  letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);transition:color .2s;
+}
+.btng:hover{color:var(--text)}
+.btng svg{width:14px;height:14px;transition:transform .2s}
+.btng:hover svg{transform:translateX(5px)}
+
+.hscroll{
+  position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:.5rem;
+  font-size:.5rem;font-weight:400;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--dim);animation:up .9s .5s ease both;z-index:1;
+}
+.hline{width:1px;height:38px;background:var(--dim);animation:hl 2.2s ease-in-out infinite}
+
+/* ─────────────────── MARQUEE ─────────────────── */
+.mq{
+  overflow:hidden;
+  border-top:1px solid var(--dim);
+  border-bottom:1px solid var(--dim);
+  padding:.9rem 0;
+}
+.mqt{display:flex;width:max-content;animation:mq 24s linear infinite}
+.mqi{
+  font-size:.58rem;font-weight:600;
+  letter-spacing:.2em;text-transform:uppercase;
+  color:var(--muted);white-space:nowrap;padding:0 2rem;
+}
+.mqdot{color:var(--red);margin:0 .4rem}
+
+/* ─────────────────── SECTION BASE ─────────────────── */
+section{padding:8rem 2rem;text-align:center}
+
+/* Label — smallest level */
+.slabel{
+  display:inline-flex;align-items:center;gap:.6rem;
+  font-size:.54rem;font-weight:700;
+  letter-spacing:.24em;text-transform:uppercase;
+  color:var(--red);margin-bottom:1.2rem;
+}
+.slabel::before,.slabel::after{content:'';width:22px;height:1px;background:var(--red)}
+
+/* Section title — bold display */
+.stitle{
+  font-size:clamp(2.2rem,4.2vw,4rem);
+  font-weight:800;line-height:1.06;
+  letter-spacing:-.03em;
+}
+.stitle .it{
+  font-weight:200;font-style:italic;
+  color:var(--muted);letter-spacing:-.01em;
+}
+.stitle .gold{color:var(--gold)}
+.stitle .red{color:var(--red)}
+
+/* Section body — light, readable */
+.ssub{
+  font-size:.85rem;font-weight:300;
+  color:var(--muted);max-width:460px;
+  margin:1.4rem auto 4rem;line-height:1.85;
+}
+
+/* ─────────────────── SERVICES ─────────────────── */
+#services{border-top:1px solid var(--dim)}
+.sg{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:1px;background:var(--dim);
+  max-width:1120px;margin:0 auto;
+  text-align:left;
+}
+.sc{
+  background:var(--bg);padding:2.5rem 2rem;
+  position:relative;overflow:hidden;
+  transition:background .28s;
+}
+.sc::after{
+  content:'';position:absolute;
+  bottom:0;left:0;right:0;height:2px;
+  background:var(--red);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .38s;
+}
+.sc:hover{background:var(--bg2)}
+.sc:hover::after{transform:scaleX(1)}
+.scn{
+  font-size:.6rem;font-weight:700;
+  color:var(--red);letter-spacing:.14em;
+  margin-bottom:1.2rem;display:block;
+}
+.sci{font-size:1.3rem;margin-bottom:1rem;display:block}
+.scname{
+  font-size:1rem;font-weight:700;
+  margin-bottom:.6rem;line-height:1.25;
+  letter-spacing:-.01em;
+}
+.scdesc{font-size:.76rem;font-weight:300;color:var(--muted);line-height:1.75}
+.sca{
+  display:inline-flex;align-items:center;gap:.4rem;
+  font-size:.6rem;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;
+  color:var(--gold);margin-top:1.4rem;
+  transition:gap .2s;
+}
+.sca:hover{gap:.7rem}
+
+/* ─────────────────── WORK ─────────────────── */
+#work{border-top:1px solid var(--dim)}
+.wg{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:1.4rem;max-width:1120px;margin:0 auto;
+  text-align:left;
+}
+.wc{position:relative;overflow:hidden;border-radius:2px;cursor:pointer}
+.wc.wide{grid-column:span 2}
+.wc img{
+  width:100%;object-fit:cover;display:block;
+  transition:transform .6s,filter .4s;
+  filter:brightness(.68);
+  /* TO CHANGE PORTFOLIO IMAGES: replace src on each img tag */
+}
+.wc.wide img{aspect-ratio:21/9}
+.wc:not(.wide) img{aspect-ratio:16/10}
+.wc:hover img{transform:scale(1.04);filter:brightness(.5)}
+.wi{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:1.8rem 2rem;
+  background:linear-gradient(transparent,rgba(26,26,27,.95));
+  transform:translateY(8px);transition:transform .28s;
+}
+.wc:hover .wi{transform:none}
+.wcat{
+  font-size:.56rem;font-weight:700;
+  letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:.35rem;display:block;
+}
+.wtitle{font-size:1.3rem;font-weight:700;line-height:1.2;letter-spacing:-.01em}
+.wc.wide .wtitle{font-size:1.8rem}
+
+/* ─────────────────── ABOUT ─────────────────── */
+#about{border-top:1px solid var(--dim)}
+.ag{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:5rem;align-items:center;
+  max-width:980px;margin:0 auto;text-align:left;
+}
+.aimg{position:relative}
+.aimg img{
+  width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:2px;
+  /* TO CHANGE ABOUT IMAGE: replace src */
+}
+.atag{
+  position:absolute;bottom:-1.2rem;right:-1.2rem;
+  background:var(--red);color:var(--bg);
+  padding:1rem 1.3rem;
+}
+.atag-num{font-size:2.5rem;font-weight:800;line-height:1;display:block}
+.atag-sub{font-size:.5rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;margin-top:.2rem;display:block}
+
+.acontent .slabel{display:inline-flex}
+.acontent h2{
+  font-size:clamp(1.8rem,3vw,3.2rem);
+  font-weight:800;line-height:1.08;
+  letter-spacing:-.03em;margin-bottom:1.6rem;
+}
+.acontent h2 em{font-style:italic;font-weight:200;color:var(--muted)}
+.acontent p{
+  font-size:.83rem;font-weight:300;
+  color:var(--muted);line-height:1.88;margin-bottom:1.1rem;
+}
+.acontent p strong{color:var(--text);font-weight:600}
+.vals{margin-top:2rem;display:flex;flex-direction:column;gap:.8rem}
+.val{display:flex;gap:1rem;padding-top:.85rem;border-top:1px solid var(--dim)}
+.vnum{font-size:.68rem;font-weight:700;color:var(--red);flex-shrink:0;padding-top:.1rem}
+.vtxt strong{display:block;font-size:.8rem;font-weight:600;margin-bottom:.15rem}
+.vtxt span{font-size:.75rem;font-weight:300;color:var(--muted)}
+
+/* ─────────────────── PROCESS STRIP ─────────────────── */
+.ps{
+  border-top:1px solid var(--dim);
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:1px;background:var(--dim);
+}
+.pstep{
+  background:var(--bg);padding:3rem 2.5rem;
+  text-align:center;
+}
+.pnum{
+  font-size:3.8rem;font-weight:800;
+  color:var(--dim);line-height:1;margin-bottom:1.2rem;
+  letter-spacing:-.04em;
+}
+.ptitle{font-size:.95rem;font-weight:700;margin-bottom:.5rem;letter-spacing:-.01em}
+.pdesc{font-size:.74rem;font-weight:300;color:var(--muted);line-height:1.75}
+
+/* ─────────────────── CONTACT ─────────────────── */
+#contact{border-top:1px solid var(--dim)}
+.cg{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:5rem;max-width:960px;margin:0 auto;text-align:left;
+}
+.cinfo h3{
+  font-size:.95rem;font-weight:600;
+  margin-bottom:1.8rem;letter-spacing:-.01em;
+  line-height:1.4;
+}
+.cdets{display:flex;flex-direction:column;gap:1.4rem;margin-bottom:2.5rem}
+.cdet a{display:flex;flex-direction:column;gap:.08rem;transition:color .2s}
+.cdet a:hover{color:var(--gold)}
+.cdlbl{
+  font-size:.54rem;font-weight:700;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--muted);
+}
+.cdval{font-size:.86rem;font-weight:400}
+.socials{display:flex;gap:.7rem;flex-wrap:wrap}
+.social{
+  font-size:.58rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);padding:.42rem .9rem;
+  border:1px solid var(--dim);border-radius:2px;
+  transition:color .2s,border-color .2s;
+}
+.social:hover{color:var(--text);border-color:var(--muted)}
+
+/* ─── FORM ─── */
+.cform{display:flex;flex-direction:column;gap:1.4rem}
+.ff{display:flex;flex-direction:column;gap:.35rem}
+.ff label{
+  font-size:.54rem;font-weight:700;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--muted);
+}
+.ff input,.ff textarea,.ff select{
+  background:transparent;border:none;
+  border-bottom:1px solid var(--dim);
+  color:var(--text);font-family:var(--f);
+  font-size:.84rem;font-weight:300;
+  padding:.65rem 0;width:100%;outline:none;
+  transition:border-color .2s;
+}
+.ff input:focus,.ff textarea:focus,.ff select:focus{border-color:var(--red)}
+.ff select option{background:var(--bg)}
+.ff textarea{resize:vertical;min-height:88px}
+.fsub{
+  align-self:flex-start;padding:.82rem 2rem;border:none;border-radius:2px;
+  background:var(--red);color:var(--bg);
+  font-family:var(--f);font-size:.62rem;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;
+  cursor:pointer;transition:background .2s,transform .18s;
+}
+.fsub:hover{background:var(--gold);transform:translateY(-2px)}
+
+/* ─────────────────── FOOTER ─────────────────── */
+footer{
+  border-top:1px solid var(--dim);
+  padding:2.5rem 3.5rem;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:1.5rem;
+}
+.flogo{font-size:.75rem;font-weight:600;letter-spacing:.04em;color:var(--muted)}
+.fcopy{font-size:.62rem;font-weight:300;color:var(--muted)}
+.flinks{display:flex;gap:2rem}
+.flinks a{
+  font-size:.58rem;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);transition:color .2s;
+}
+.flinks a:hover{color:var(--text)}
+
+/* ─────────────────── ANIMATIONS ─────────────────── */
+@keyframes up{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@keyframes mq{to{transform:translateX(-50%)}}
+@keyframes hl{0%,100%{opacity:.25}50%{opacity:.8}}
+
+.rev{opacity:0;transform:translateY(26px);transition:opacity .65s,transform .65s}
+.rev.on{opacity:1;transform:none}
+.rev:nth-child(2){transition-delay:.08s}
+.rev:nth-child(3){transition-delay:.14s}
+.rev:nth-child(4){transition-delay:.2s}
+
+/* ─────────────────── RESPONSIVE ─────────────────── */
+@media(max-width:880px){
+  #nav{padding:0 1.5rem}
+  .nm,.ncta{display:none}
+  .nhbtn{display:flex;align-items:center}
+  section{padding:5rem 1.5rem}
+  #home{padding:0 1.5rem}
+  .hh1{font-size:clamp(2.6rem,10vw,4.2rem)}
+  .sg{grid-template-columns:1fr 1fr}
+  .wg{grid-template-columns:1fr}
+  .wc.wide{grid-column:auto}
+  .wc.wide img,.wc:not(.wide) img{aspect-ratio:16/10}
+  .wc.wide .wtitle{font-size:1.3rem}
+  .ag{grid-template-columns:1fr;gap:2.5rem}
+  .atag{display:none}
+  .ps{grid-template-columns:1fr 1fr}
+  .cg{grid-template-columns:1fr;gap:3rem}
+  footer{flex-direction:column;align-items:center;text-align:center;padding:2rem 1.5rem}
+  .flinks{justify-content:center}
+  .hscroll{display:none}
+}
+@media(max-width:500px){
+  .sg{grid-template-columns:1fr}
+  .ps{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div id="cur"><div id="cring"></div><div id="cdot"></div></div>
+
+<!-- ══════════ NAV ══════════ -->
+<nav id="nav">
+
+  <!-- Left: Logo -->
+  <a href="#home" class="nl">
+    <!-- LOGO: embedded SVG. To replace, swap the SVG content between these tags. -->
+    <svg viewBox="100 180 520 180" height="28" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="lg" x1="100" y1="180" x2="620" y2="360" gradientUnits="userSpaceOnUse">
+          <stop stop-color="#FF2E2E"/>
+          <stop offset=".5" stop-color="#FF9F1C"/>
+          <stop offset="1" stop-color="#FF2E2E"/>
+        </linearGradient>
+      </defs>
+      <path d="M267.476 220.216C290.701 196.261 321.223 184.694 354.438 184.323C387.149 183.862 418.672 196.575 441.91 219.603C460.379 237.86 474.91 262.77 480.186 288.231C483.802 289.801 490.443 289.18 493.954 289.999C494.989 290.502 494.956 290.403 496.121 290.645C497.383 290.048 496.903 290.506 497.503 289.119L497.857 290.651L496.915 291.474C497.598 291.491 498.131 291.535 498.808 291.673C498.235 292.247 498.402 292.133 498.183 292.252C506.205 294.072 519.51 294.135 527.944 294.957L528.478 293.914C568.136 298.387 607.503 305.143 646.385 314.149C658.063 316.87 676.505 321.109 687.974 325.245C693.438 326.479 703.139 330.033 707.536 333.211C693.879 333.869 679.352 332.171 665.672 330.876C642.029 328.485 618.4 325.94 594.789 323.243C555.12 319.258 515.399 315.796 475.638 312.857C441.067 310.244 409.675 307.821 374.946 307.489C292.772 306.703 210.629 314.27 128.844 321.66C101.03 324.173 72.7647 328.528 44.6913 330.605C29.1787 331.752 15.9919 333.798 0 333.751C6.32374 329.954 9.87339 328.637 16.855 326.122C29.9671 321.351 45.0915 317.987 58.7387 314.758C83.4351 308.978 108.331 304.08 133.376 300.072C150.889 297.326 169.156 295.119 186.755 292.735C187.926 292.293 198.96 291.848 201.434 291.488C202.91 292.413 203.251 292.362 205.031 292.636C208.075 292.417 212.601 291.934 215.536 291.278L215.892 291.321L216.533 289.478C220.887 289.267 225.362 288.351 229.826 288.237C232.275 271.076 241.807 250.827 252.537 237.494C252.999 236.261 254.175 235.073 255.066 234.035C255.732 232.889 259.585 228.636 260.6 227.534C261.857 226.095 263.483 224.464 264.817 223.049L267.476 220.216Z" fill="url(#lg)"/>
+    </svg>
+    <div class="nl-text">
+      <span class="nl-name">Sunshower Creatives</span>
+    </div>
+  </a>
+
+  <!-- Centre: Nav links -->
+  <ul class="nm">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+
+  <!-- Right: CTA -->
+  <div class="nr">
+    <a href="#contact" class="ncta">Let's talk</a>
+    <button class="nhbtn" id="hbtn" aria-label="Open menu">
+      <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" d="M4 7h16M4 12h16M4 17h16"/>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div id="mob">
+  <button id="mclose">&#10005;</button>
+  <a href="#services" onclick="closeMob()">Services</a>
+  <a href="#work" onclick="closeMob()">Work</a>
+  <a href="#about" onclick="closeMob()">About</a>
+  <a href="#contact" onclick="closeMob()">Contact</a>
+</div>
+
+<!-- ══════════ HERO ══════════ -->
+<section id="home">
+  <div class="hbg">
+    <!-- TO CHANGE HERO IMAGE: replace the Unsplash URL below -->
+    <img src="https://images.unsplash.com/photo-1605640840605-14ac1855827b?w=1800&q=80&auto=format&fit=crop" alt="Sunshower Creatives hero"/>
+  </div>
+  
+  <div class="hinner">
+        <h1 class="hh1">
+      Where brands<br/>find their <span class="ac">light.</span>
+      <span class="it">We make it shine.</span>
+    </h1>
+    <p class="hsub">A sunshower is rare — warmth and rain at once. We build brands that feel exactly like that moment of unexpected beauty.</p>
+    <div class="hbtns">
+      <a href="#work" class="btnp">See our work</a>
+      <a href="#contact" class="btng">
+        Start a project
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M2 8h12M9 3l5 5-5 5"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+  <div class="hscroll">
+    <span>Scroll</span>
+    <div class="hline"></div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="mq">
+  <div class="mqt">
+    <span class="mqi">Brand Identity<span class="mqdot">·</span></span>
+    <span class="mqi">Digital Strategy<span class="mqdot">·</span></span>
+    <span class="mqi">Content Creation<span class="mqdot">·</span></span>
+    <span class="mqi">Campaign Management<span class="mqdot">·</span></span>
+    <span class="mqi">Visual Direction<span class="mqdot">·</span></span>
+    <span class="mqi">Social Media<span class="mqdot">·</span></span>
+    <span class="mqi">Brand Identity<span class="mqdot">·</span></span>
+    <span class="mqi">Digital Strategy<span class="mqdot">·</span></span>
+    <span class="mqi">Content Creation<span class="mqdot">·</span></span>
+    <span class="mqi">Campaign Management<span class="mqdot">·</span></span>
+    <span class="mqi">Visual Direction<span class="mqdot">·</span></span>
+    <span class="mqi">Social Media<span class="mqdot">·</span></span>
+  </div>
+</div>
+
+<!-- ══════════ SERVICES ══════════ -->
+<section id="services">
+  <div class="slabel rev">What we do</div>
+  <h2 class="stitle rev">Built for brands that<br/><span class="it">want to matter.</span></h2>
+  <p class="ssub rev">We work with ambitious businesses across Nepal and the region — crafting identities, stories, and campaigns that resonate, not just impress.</p>
+  <div class="sg rev">
+    <div class="sc">
+      <span class="scn">01</span>
+      <span class="sci">◈</span>
+      <div class="scname">Brand Identity</div>
+      <p class="scdesc">Logo, colour, typography, tone of voice. We build the visual and verbal foundation your brand stands on.</p>
+      <a href="#contact" class="sca">Inquire →</a>
+    </div>
+    <div class="sc">
+      <span class="scn">02</span>
+      <span class="sci">◉</span>
+      <div class="scname">Digital Presence</div>
+      <p class="scdesc">Websites, social profiles, email — your complete digital footprint, designed to convert and impress.</p>
+      <a href="#contact" class="sca">Inquire →</a>
+    </div>
+    <div class="sc">
+      <span class="scn">03</span>
+      <span class="sci">◐</span>
+      <div class="scname">Content Creation</div>
+      <p class="scdesc">Photography, copywriting, video concepts. Stories worth sharing, told the way your audience wants to hear them.</p>
+      <a href="#contact" class="sca">Inquire →</a>
+    </div>
+    <div class="sc">
+      <span class="scn">04</span>
+      <span class="sci">◑</span>
+      <div class="scname">Campaign Strategy</div>
+      <p class="scdesc">Launch campaigns, paid media, PR narratives. Coordinated effort that moves the needle — not just the metrics.</p>
+      <a href="#contact" class="sca">Inquire →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ WORK ══════════ -->
+<section id="work">
+  <div class="slabel rev">Selected work</div>
+  <h2 class="stitle rev">Work that<br/><span class="it">speaks first.</span></h2>
+  <p class="ssub rev">A handful of brands we've helped build, grow, and be remembered.</p>
+  <div class="wg rev">
+    <!-- TO CHANGE PORTFOLIO IMAGES: replace each img src with your own photo URL -->
+    <div class="wc wide">
+      <img src="https://images.unsplash.com/photo-1558655146-d09347e92766?w=1400&q=80&auto=format&fit=crop" alt="Himalayan Brew Co."/>
+      <div class="wi">
+        <span class="wcat">Brand Identity</span>
+        <div class="wtitle">Himalayan Brew Co. — Complete Rebrand</div>
+      </div>
+    </div>
+    <div class="wc">
+      <img src="https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=800&q=80&auto=format&fit=crop" alt="Yeti Retreats"/>
+      <div class="wi">
+        <span class="wcat">Social Campaign</span>
+        <div class="wtitle">Yeti Retreats</div>
+      </div>
+    </div>
+    <div class="wc">
+      <img src="https://images.unsplash.com/photo-1542744094-24638eff58bb?w=800&q=80&auto=format&fit=crop" alt="Thamel Collective"/>
+      <div class="wi">
+        <span class="wcat">Digital Strategy</span>
+        <div class="wtitle">Thamel Collective</div>
+      </div>
+    </div>
+    <div class="wc">
+      <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&q=80&auto=format&fit=crop" alt="Annapurna Apparel"/>
+      <div class="wi">
+        <span class="wcat">Content Creation</span>
+        <div class="wtitle">Annapurna Apparel</div>
+      </div>
+    </div>
+    <div class="wc">
+      <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&q=80&auto=format&fit=crop" alt="Mustang Nomad"/>
+      <div class="wi">
+        <span class="wcat">Brand Launch</span>
+        <div class="wtitle">Mustang Nomad</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ ABOUT ══════════ -->
+<section id="about">
+  <div class="ag">
+    <div class="aimg rev">
+      <!-- TO CHANGE ABOUT IMAGE: replace src -->
+      <img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=900&q=80&auto=format&fit=crop" alt="Ankit Ghimire — Sunshower Creatives"/>
+      <div class="atag">
+        <span class="atag-num">5+</span>
+        <span class="atag-sub">Years of craft</span>
+      </div>
+    </div>
+    <div class="acontent rev">
+      <div class="slabel">Our story</div>
+      <h2>We are<br/><em>Sunshower Creatives.</em></h2>
+      <p>A sunshower happens when the sun shines through the rain — two opposite forces creating something unexpectedly beautiful. That is exactly what we do.</p>
+      <p>Founded by <strong>Ankit Ghimire</strong> in Kathmandu, we believe the best brands live at the intersection of strategy and beauty. We don't separate creative from commerce — we make them inseparable.</p>
+      <p>We work with ambitious businesses — local, regional, and those building from Nepal outward — who want to be the brand people remember.</p>
+      <div class="vals">
+        <div class="val">
+          <span class="vnum">01</span>
+          <div class="vtxt">
+            <strong>Clarity over complexity</strong>
+            <span>The most powerful messages are the simplest ones.</span>
+          </div>
+        </div>
+        <div class="val">
+          <span class="vnum">02</span>
+          <div class="vtxt">
+            <strong>Beauty as strategy</strong>
+            <span>A beautiful brand earns trust before a word is spoken.</span>
+          </div>
+        </div>
+        <div class="val">
+          <span class="vnum">03</span>
+          <div class="vtxt">
+            <strong>Rooted in Nepal, ready for the world</strong>
+            <span>We know this market deeply. That knowledge is our edge.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ PROCESS ══════════ -->
+<div class="ps">
+  <div class="pstep rev">
+    <div class="pnum">01</div>
+    <div class="ptitle">Discover</div>
+    <p class="pdesc">Deep-dive into your brand, audience, and ambition. We ask the uncomfortable questions.</p>
+  </div>
+  <div class="pstep rev">
+    <div class="pnum">02</div>
+    <div class="ptitle">Strategise</div>
+    <p class="pdesc">We map what you stand for, who you're for, and how you'll win their attention.</p>
+  </div>
+  <div class="pstep rev">
+    <div class="pnum">03</div>
+    <div class="ptitle">Create</div>
+    <p class="pdesc">Identity, content, campaigns — designed with precision, refined until right.</p>
+  </div>
+  <div class="pstep rev">
+    <div class="pnum">04</div>
+    <div class="ptitle">Launch</div>
+    <p class="pdesc">We go live and stay close. Strategy evolves with results. We measure what matters.</p>
+  </div>
+</div>
+
+<!-- ══════════ CONTACT ══════════ -->
+<section id="contact">
+  <div class="slabel rev">Get in touch</div>
+  <h2 class="stitle rev">Ready to build<br/><span class="it">something remarkable?</span></h2>
+  <p class="ssub rev">Tell us about your project and we'll get back to you within 24 hours.</p>
+  <div class="cg">
+    <div class="cinfo rev">
+      <h3>We'd love to hear about your brand.</h3>
+      <div class="cdets">
+        <!-- TO CHANGE CONTACT DETAILS: update href and text -->
+        <div class="cdet">
+          <a href="mailto:contactankit011@gmail.com">
+            <span class="cdlbl">Email</span>
+            <span class="cdval">contactankit011@gmail.com</span>
+          </a>
+        </div>
+        <div class="cdet">
+          <a href="https://wa.me/9779840026937" target="_blank" rel="noopener">
+            <span class="cdlbl">WhatsApp</span>
+            <span class="cdval">+977 984 002 6937</span>
+          </a>
+        </div>
+        <div class="cdet">
+          <a href="https://maps.google.com/?q=Kathmandu,Nepal" target="_blank" rel="noopener">
+            <span class="cdlbl">Location</span>
+            <span class="cdval">Kathmandu, Nepal</span>
+          </a>
+        </div>
+      </div>
+      <div class="socials">
+        <!-- TO ADD SOCIAL LINKS: replace # with your actual URLs -->
+        <a href="#" class="social">Instagram</a>
+        <a href="#" class="social">LinkedIn</a>
+        <a href="#" class="social">Facebook</a>
+        <a href="#" class="social">Behance</a>
+      </div>
+    </div>
+    <form class="cform rev"
+      action="https://formspree.io/f/YOUR_FORM_ID"
+      method="POST">
+      <!--
+        CONTACT FORM SETUP:
+        1. Go to formspree.io — sign up free
+        2. Create a new form
+        3. Replace YOUR_FORM_ID above with your actual Formspree form ID
+        4. Submissions will arrive in your email automatically
+      -->
+      <div class="ff">
+        <label for="name">Your name</label>
+        <input type="text" id="name" name="name" placeholder="Aarav Sharma" required/>
+      </div>
+      <div class="ff">
+        <label for="email">Email address</label>
+        <input type="email" id="email" name="email" placeholder="hello@yourbrand.com" required/>
+      </div>
+      <div class="ff">
+        <label for="service">Service of interest</label>
+        <select id="service" name="service">
+          <option value="">Select a service</option>
+          <option>Brand Identity</option>
+          <option>Digital Presence</option>
+          <option>Content Creation</option>
+          <option>Campaign Strategy</option>
+          <option>Other / Not sure yet</option>
+        </select>
+      </div>
+      <div class="ff">
+        <label for="msg">Tell us about your project</label>
+        <textarea id="msg" name="message" placeholder="What are you building? What's the challenge?" required></textarea>
+      </div>
+      <button type="submit" class="fsub">Send message →</button>
+    </form>
+  </div>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <div class="flogo">Sunshower Creatives · Kathmandu</div>
+  <div class="fcopy">© 2025 Sunshower Creatives. All rights reserved.</div>
+  <nav class="flinks">
+    <a href="#services">Services</a>
+    <a href="#work">Work</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</footer>
+
+<script>
+// ── CURSOR ──
+const dot=document.getElementById('cdot'),ring=document.getElementById('cring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
+(function tick(){
+  dot.style.left=mx+'px';dot.style.top=my+'px';
+  rx+=(mx-rx)*.13;ry+=(my-ry)*.13;
+  ring.style.left=rx+'px';ring.style.top=ry+'px';
+  requestAnimationFrame(tick);
+})();
+
+// ── NAV SCROLL ──
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>60),{passive:true});
+
+// ── MOBILE MENU ──
+document.getElementById('hbtn').addEventListener('click',()=>document.getElementById('mob').classList.add('open'));
+document.getElementById('mclose').addEventListener('click',closeMob);
+function closeMob(){document.getElementById('mob').classList.remove('open')}
+
+// ── SCROLL REVEAL ──
+const ro=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('on')});
+},{threshold:.1});
+document.querySelectorAll('.rev').forEach(el=>ro.observe(el));
+</script>
+</body>
+</html>
