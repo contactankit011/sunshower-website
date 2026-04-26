@@ -34,6 +34,9 @@ body{
   -webkit-font-smoothing:antialiased;
   cursor:none;
 }
+.header-logo {
+  height: 70px;
+}
 img{display:block;max-width:100%}
 a{text-decoration:none;color:inherit}
 
@@ -76,6 +79,7 @@ body:has(button:hover) #cring{width:44px;height:44px;border-color:var(--gold)}
 /* — logo (left column, stays left) */
 .nl{
   display:flex;align-items:center;gap:.6rem;
+  padding-block: 10px;
   justify-self:start;
 }
 .nl svg{height:28px;width:auto;flex-shrink:0}
@@ -540,16 +544,7 @@ footer{
   <!-- Left: Logo -->
   <a href="#home" class="nl">
     <!-- LOGO: embedded SVG. To replace, swap the SVG content between these tags. -->
-    <svg viewBox="100 180 520 180" height="28" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="lg" x1="100" y1="180" x2="620" y2="360" gradientUnits="userSpaceOnUse">
-          <stop stop-color="#FF2E2E"/>
-          <stop offset=".5" stop-color="#FF9F1C"/>
-          <stop offset="1" stop-color="#FF2E2E"/>
-        </linearGradient>
-      </defs>
-      <path d="M267.476 220.216C290.701 196.261 321.223 184.694 354.438 184.323C387.149 183.862 418.672 196.575 441.91 219.603C460.379 237.86 474.91 262.77 480.186 288.231C483.802 289.801 490.443 289.18 493.954 289.999C494.989 290.502 494.956 290.403 496.121 290.645C497.383 290.048 496.903 290.506 497.503 289.119L497.857 290.651L496.915 291.474C497.598 291.491 498.131 291.535 498.808 291.673C498.235 292.247 498.402 292.133 498.183 292.252C506.205 294.072 519.51 294.135 527.944 294.957L528.478 293.914C568.136 298.387 607.503 305.143 646.385 314.149C658.063 316.87 676.505 321.109 687.974 325.245C693.438 326.479 703.139 330.033 707.536 333.211C693.879 333.869 679.352 332.171 665.672 330.876C642.029 328.485 618.4 325.94 594.789 323.243C555.12 319.258 515.399 315.796 475.638 312.857C441.067 310.244 409.675 307.821 374.946 307.489C292.772 306.703 210.629 314.27 128.844 321.66C101.03 324.173 72.7647 328.528 44.6913 330.605C29.1787 331.752 15.9919 333.798 0 333.751C6.32374 329.954 9.87339 328.637 16.855 326.122C29.9671 321.351 45.0915 317.987 58.7387 314.758C83.4351 308.978 108.331 304.08 133.376 300.072C150.889 297.326 169.156 295.119 186.755 292.735C187.926 292.293 198.96 291.848 201.434 291.488C202.91 292.413 203.251 292.362 205.031 292.636C208.075 292.417 212.601 291.934 215.536 291.278L215.892 291.321L216.533 289.478C220.887 289.267 225.362 288.351 229.826 288.237C232.275 271.076 241.807 250.827 252.537 237.494C252.999 236.261 254.175 235.073 255.066 234.035C255.732 232.889 259.585 228.636 260.6 227.534C261.857 226.095 263.483 224.464 264.817 223.049L267.476 220.216Z" fill="url(#lg)"/>
-    </svg>
+    <img class="header-logo" src="logo.png" alt="">
     <div class="nl-text">
       <span class="nl-name">Sunshower Creatives</span>
     </div>
@@ -593,7 +588,7 @@ footer{
   <div class="hinner">
         <h1 class="hh1">
       Where brands<br/>find their <span class="ac">light.</span>
-      <span class="it">We make it unicorn.</span>
+      <span class="it">We make it shine.</span>
     </h1>
     <p class="hsub">A sunshower is rare — warmth and rain at once. We build brands that feel exactly like that moment of unexpected beauty.</p>
     <div class="hbtns">
