@@ -44,17 +44,22 @@ a{text-decoration:none;color:inherit}
 /* ─────────────────── CURSOR ─────────────────── */
 #cur{position:fixed;inset:0;z-index:9999;pointer-events:none}
 #cdot{
-  position:absolute;width:5px;height:5px;border-radius:50%;
-  background:var(--red);transform:translate(-50%,-50%);
+  position:absolute;width:6px;height:6px;border-radius:50%;
+  background:var(--gold);transform:translate(-50%,-50%);
+  box-shadow:0 0 8px rgba(255,159,28,.6);
 }
 #cring{
-  position:absolute;width:28px;height:28px;border-radius:50%;
-  border:1px solid rgba(255, 255, 255);
+  position:absolute;width:32px;height:32px;border-radius:50%;
+  border:2px solid rgba(255,255,255,.3);
   transform:translate(-50%,-50%);
-  transition:width .2s,height .2s,border-color .2s;
+  transition:width .15s,height .15s,border-color .15s;
+  backdrop-filter:blur(2px);
 }
 body:has(a:hover) #cring,
-body:has(button:hover) #cring{width:44px;height:44px;border-color:var(--gold)}
+body:has(button:hover) #cring{
+  width:48px;height:48px;border-color:var(--red);
+  box-shadow:0 0 12px rgba(255,46,46,.4);
+}
 
 /* ─────────────────── NAV ─────────────────────
    3-column grid: logo | links (centred) | cta
@@ -889,12 +894,14 @@ footer{
 <script>
 // ── CURSOR ──
 const dot=document.getElementById('cdot'),ring=document.getElementById('cring');
-let mx=0,my=0,rx=0,ry=0;
+let mx=0,my=0,rx=0,ry=0,angle=0;
 document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
 (function tick(){
   dot.style.left=mx+'px';dot.style.top=my+'px';
-  rx+=(mx-rx)*.13;ry+=(my-ry)*.13;
+  rx+=(mx-rx)*.3;ry+=(my-ry)*.3;
+  angle+=3;
   ring.style.left=rx+'px';ring.style.top=ry+'px';
+  ring.style.transform=`translate(-50%,-50%) rotate(${angle}deg)`;
   requestAnimationFrame(tick);
 })();
 
