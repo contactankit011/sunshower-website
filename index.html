@@ -509,9 +509,11 @@ footer{
 
 /* ─────────────────── RESPONSIVE ─────────────────── */
 @media(max-width:880px){
-  #nav{padding:0 1.5rem}
+  #nav{padding:0 1.5rem;grid-template-columns:auto 1fr auto}
   .nm,.ncta{display:none}
   .nhbtn{display:flex;align-items:center}
+  .nr{justify-self:end}
+  .nl{justify-self:start}
   section{padding:5rem 1.5rem}
   #home{padding:0 1.5rem}
   .hh1{font-size:clamp(2.6rem,10vw,4.2rem)}
@@ -531,6 +533,27 @@ footer{
 @media(max-width:500px){
   .sg{grid-template-columns:1fr}
   .ps{grid-template-columns:1fr}
+}
+
+@media(max-width:680px){
+  #nav{padding:0 1rem}
+  .hinner{margin-top:40px}
+  .htag{padding:.35rem .9rem;font-size:.52rem}
+  .hh1{font-size:clamp(2.2rem,10vw,3.6rem)}
+  .hh1 .it{font-size:.72em}
+  .hsub{font-size:.92rem;max-width:100%;margin:1.5rem auto 2rem}
+  .hbtns{flex-direction:column;gap:.9rem}
+  .btnp,.btng{width:100%;justify-content:center}
+  .mq{padding:.8rem 1rem}
+  .ssub{max-width:100%}
+  .stitle{font-size:clamp(1.9rem,4.5vw,3rem)}
+  .ag{gap:2rem}
+  .atag{position:static;right:auto;bottom:auto;margin-top:1rem}
+  .cg{gap:2rem}
+  .cinfo{width:100%}
+  .cform{width:100%}
+  .ff input,.ff textarea,.ff select{font-size:.92rem}
+  .ps{grid-template-columns:1fr 1fr}
 }
 </style>
 </head>
@@ -880,9 +903,13 @@ const nav=document.getElementById('nav');
 window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>60),{passive:true});
 
 // ── MOBILE MENU ──
-document.getElementById('hbtn').addEventListener('click',()=>document.getElementById('mob').classList.add('open'));
+const mob=document.getElementById('mob');
+document.getElementById('hbtn').addEventListener('click',()=>mob.classList.add('open'));
 document.getElementById('mclose').addEventListener('click',closeMob);
-function closeMob(){document.getElementById('mob').classList.remove('open')}
+mob.addEventListener('click',e=>{
+  if (e.target===mob || e.target.closest('a')) closeMob();
+});
+function closeMob(){mob.classList.remove('open')}
 
 // ── SCROLL REVEAL ──
 const ro=new IntersectionObserver(entries=>{
